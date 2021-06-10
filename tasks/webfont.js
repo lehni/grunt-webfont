@@ -544,16 +544,15 @@ module.exports = function(grunt) {
 			var demoTemplate = readTemplate(o.htmlDemoTemplate, 'demo', '.html');
 			var demo = renderTemplate(demoTemplate, context);
 
-			mkdirp(getDemoPath(), function(err) {
-				if (err) {
+			mkdirp(getDemoPath())
+				.then(function() {
+					// Save file
+					fs.writeFileSync(getDemoFilePath(), demo);
+					done();
+				})
+				.catch(function(err) {
 					logger.log(err);
-					return;
-				}
-				// Save file
-				fs.writeFileSync(getDemoFilePath(), demo);
-				done();
-			});
-
+				});
 		}
 
 		/**
