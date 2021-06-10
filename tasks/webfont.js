@@ -153,8 +153,11 @@ module.exports = function(grunt) {
 		if (!o.codepoints) o.codepoints = {};
 		if (o.codepointsFile) o.codepoints = readCodepointsFromFile();
 		o.glyphs.forEach(function(name) {
+			// Interpret single char file-names as direct glyph code-points.
 			if (!o.codepoints[name]) {
-				o.codepoints[name] = getNextCodepoint();
+				o.codepoints[name] = [...name].length > 1
+					? getNextCodepoint()
+					: name.codePointAt(0);
 			}
 		});
 		if (o.codepointsFile) saveCodepointsToFile();
