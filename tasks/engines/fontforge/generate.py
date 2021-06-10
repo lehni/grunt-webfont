@@ -26,9 +26,10 @@ KERNING = 15
 
 
 def create_empty_char(f, c):
-	pen = f.createChar(ord(c), c).glyphPen()
-	pen.moveTo((0, 0))
-	pen = None
+	if not ord(c) in f:
+		pen = f.createChar(ord(c), c).glyphPen()
+		pen.moveTo((0, 0))
+		pen = None
 
 
 if args['addLigatures']:
